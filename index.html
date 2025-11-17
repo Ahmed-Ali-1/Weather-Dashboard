@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" />
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/responsive.css">
+</head>
+
+<body>
+    <div class="weather-dashboard">
+
+        <div class="search-bar">
+            <input type="text" placeholder="Enter your location..." id="cityInput" autofocus>
+            <button id="searchBtn">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+        </div>
+
+        <div class="error">
+            <p id="loading" style="display:none; color:blue;">Loading...</p>
+            <p id="error" style="display:none; color:red;">Invalid city. Please try again.</p>
+        </div>
+
+        <div class="weather-card">
+            <h2 id="cityName">City Name</h2>
+            <img src="./assets/images/cloudy.png" id="weatherImage" alt="Weather Icon">
+            <p id="weatherType">--</p>
+            <div class="weather-details">
+                <div>
+                    <p>Temp</p>
+                    <strong id="temp">--</strong>
+                </div>
+                <div>
+                    <p>Humidity</p>
+                    <strong id="humidity">--</strong>
+                </div>
+                <div>
+                    <p>Wind Speed</p>
+                    <strong id="wind">--</strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="recent-searches">
+            <h3>Recent Searches</h3>
+            <ul id="recentList">
+            </ul>
+        </div>
+
+    </div>
+
+
+    <script src="./assets/js/app.js"></script>
+</body>
+
+</html>
+
+
+
+<!-- <div class="forecast-card" id="forecastCard" style="display:none;">
+    <h3>5-Day Forecast</h3>
+    <div id="forecastContainer" style="display:flex; gap:10px; overflow-x:auto;"></div>
+</div> -->
