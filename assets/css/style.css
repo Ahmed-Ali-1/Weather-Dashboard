@@ -134,6 +134,26 @@ body {
     border-radius: 3px;
 }
 
+.forecast-box {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.forecast-day {
+    background: #d8d7d755;
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+    width: 100px;
+}
+
+.forecast h3{
+    text-align: center;
+}
+
+
+
 
 /* Responsive */
 @media (max-width: 480px) {

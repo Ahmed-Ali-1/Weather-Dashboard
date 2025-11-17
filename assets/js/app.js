@@ -98,6 +98,7 @@ function loadRecentSearches() {
 function saveRecentSearch(city) {
     let items = JSON.parse(localStorage.getItem("recentSearches")) || [];
 
+    items = items.filter(item => item.toLowerCase() !== city.toLowerCase());
     items.unshift(city);
 
     localStorage.setItem("recentSearches", JSON.stringify(items));
@@ -161,6 +162,7 @@ async function checkWeather(city) {
         loadingText.style.display = "none";
         errorText.style.display = "block";
     }
+    getForecast(city);
 }
 
 
@@ -174,7 +176,59 @@ searchBtn.addEventListener("click", () => {
 });
 
 
+
+
+// ---------------------
+// 3-Day Forecast Function
+// ---------------------
+async function getForecast(city) {
+    const url = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${apiKey}`;
+
+    try {
+        const res = await fetch(url);
+        const data = await res.json();
+
+        const forecastContainer = document.getElementById("forecastContainer");
+        forecastContainer.innerHTML = "";
+
+        // Roz 8 entries hoti hain (3 hours interval)
+        // Har din ka 12pm (index 4, 12, 20...) pick kar lenge
+        const selectionIndexes = [4, 12, 20]; // 3-day basic
+
+        selectionIndexes.forEach(i => {
+            if (!data.list[i]) return;
+
+            const day = data.list[i];
+            const date = new Date(day.dt_txt).toLocaleDateString("en-US", {
+                weekday: "short"
+            });
+
+            const temp = Math.round(day.main.temp);
+            const icon = day.weather[0].icon;
+
+            // Card create
+            const div = document.createElement("div");
+            div.className = "forecast-day";
+
+            div.innerHTML = `
+                <p>${date}</p>
+                <img src="https://openweathermap.org/img/wn/${icon}.png">
+                <p>${temp}°C</p>
+            `;
+
+            forecastContainer.appendChild(div);
+        });
+
+    } catch (err) {
+        console.log("Forecast error", err);
+    }
+}
+
+
+
 // ---------------------
 // Load recent searches on page load
 // ---------------------
 loadRecentSearches();
+
+
