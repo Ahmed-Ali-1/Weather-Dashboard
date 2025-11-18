@@ -9,9 +9,7 @@ const errorText = document.getElementById("error");
 const recentList = document.getElementById("recentList");
 
 
-// ---------------------
 // Load Recent Searches
-// ---------------------
 function loadRecentSearches() {
     const items = JSON.parse(localStorage.getItem("recentSearches")) || [];
     recentList.innerHTML = "";
@@ -21,7 +19,6 @@ function loadRecentSearches() {
         li.textContent = city;
         li.style.cursor = "pointer";
 
-        // Click to search again
         li.addEventListener("click", () => {
             checkWeather(city);
         });
@@ -31,9 +28,7 @@ function loadRecentSearches() {
 }
 
 
-// ---------------------
 // Save Recent Searches
-// ---------------------
 function saveRecentSearch(city) {
     let items = JSON.parse(localStorage.getItem("recentSearches")) || [];
 
@@ -45,22 +40,21 @@ function saveRecentSearch(city) {
 }
 
 
-
-// ---------------------
 // Render Weather UI
-// ---------------------
 function renderWeather(data) {
-    document.getElementById("cityName").textContent = data.name;
-    document.getElementById("weatherType").textContent = data.weather[0].main;
-    document.getElementById("temp").textContent = Math.round(data.main.temp) + "°C";
-    document.getElementById("humidity").textContent = data.main.humidity + "%";
-    document.getElementById("wind").textContent = data.wind.speed + "km/h";
+
+    document.getElementById('cityName').innerHTML = data.name;
+    document.getElementById('weatherType').innerHTML = data.weather[0].main;
+    document.getElementById('temp').innerHTML = Math.round(data.main.temp) + "°C";
+    document.getElementById('humidity').innerHTML = data.main.humidity + "%";
+    document.getElementById('wind').innerHTML = data.wind.speed + "km/h ";
+
 
     if (data.weather[0].main == "Clouds") {
         weatherImage.src = ".//assets/images/cloudy.png"
 
     } else if (data.weather[0].main == "Clear") {
-        weatherImage.src = ".//assets/images/sunny.png"
+        weatherImage.src = ".//assets/images/clear.png"
 
     } else if (data.weather[0].main == "Rain") {
         weatherImage.src = ".//assets/images/heavy-rain.png"
@@ -70,17 +64,19 @@ function renderWeather(data) {
 
     } else if (data.weather[0].main == "Mist") {
         weatherImage.src = ".//assets/images/mist.png"
+
+    } else if (data.weather[0].main == "Haze") {
+        weatherImage.src = ".//assets/images/haze.png"
+
+    } else if (data.weather[0].main == "Sunny") {
+        weatherImage.src = ".//assets/images/sunny.png"
     }
 
     document.querySelector(".weather-card").style.display = "block";
 
 }
 
-
-
-// ---------------------
 // Main Weather Function
-// ---------------------
 async function checkWeather(city) {
     if (!city) return;
 
@@ -106,21 +102,23 @@ async function checkWeather(city) {
 }
 
 
-
-// ---------------------
 // Search Button Click
-// ---------------------
 searchBtn.addEventListener("click", () => {
     checkWeather(cityInput.value.trim());
     cityInput.value = "";
+    cityInput.blur()
 });
 
 
+// Search Button Keypress
+cityInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+        searchBtn.click();
+    }
+});
 
 
-// ---------------------
 // 3-Day Forecast Function
-// ---------------------
 async function getForecast(city) {
     const url = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${apiKey}`;
 
@@ -133,9 +131,7 @@ async function getForecast(city) {
         forecastContainer.innerHTML = "";
         forecastSection.style.display = "none";
 
-        // Roz 8 entries hoti hain (3 hours interval)
-        // Har din ka 12pm (index 4, 12, 20...) pick kar lenge
-        const selectionIndexes = [4, 12, 20]; // 3-day basic
+        const selectionIndexes = [4, 12, 20];
 
         selectionIndexes.forEach(i => {
             if (!data.list[i]) return;
@@ -148,7 +144,6 @@ async function getForecast(city) {
             const temp = Math.round(day.main.temp);
             const icon = day.weather[0].icon;
 
-            // Card create
             const div = document.createElement("div");
             div.className = "forecast-day";
 
@@ -171,10 +166,7 @@ async function getForecast(city) {
 }
 
 
-
-// ---------------------
 // Load recent searches on page load
-// ---------------------
 loadRecentSearches();
 
 
