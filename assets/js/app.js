@@ -9,7 +9,9 @@ const errorText = document.getElementById("error");
 const recentList = document.getElementById("recentList");
 
 
+
 // Load Recent Searches
+
 function loadRecentSearches() {
     const items = JSON.parse(localStorage.getItem("recentSearches")) || [];
     recentList.innerHTML = "";
@@ -28,7 +30,9 @@ function loadRecentSearches() {
 }
 
 
+
 // Save Recent Searches
+
 function saveRecentSearch(city) {
     let items = JSON.parse(localStorage.getItem("recentSearches")) || [];
 
@@ -40,7 +44,9 @@ function saveRecentSearch(city) {
 }
 
 
+
 // Render Weather UI
+
 function renderWeather(data) {
 
     document.getElementById('cityName').innerHTML = data.name;
@@ -73,10 +79,14 @@ function renderWeather(data) {
     }
 
     document.querySelector(".weather-card").style.display = "block";
+    document.querySelector(".weather-card").classList.add("fade-in", "slide-up");
 
 }
 
+
+
 // Main Weather Function
+
 async function checkWeather(city) {
     if (!city) return;
 
@@ -102,7 +112,9 @@ async function checkWeather(city) {
 }
 
 
+
 // Search Button Click
+
 searchBtn.addEventListener("click", () => {
     checkWeather(cityInput.value.trim());
     cityInput.value = "";
@@ -110,7 +122,9 @@ searchBtn.addEventListener("click", () => {
 });
 
 
+
 // Search Button Keypress
+
 cityInput.addEventListener("keydown", (e) => {
     if (e.key === "Enter") {
         searchBtn.click();
@@ -118,7 +132,9 @@ cityInput.addEventListener("keydown", (e) => {
 });
 
 
+
 // 3-Day Forecast Function
+
 async function getForecast(city) {
     const url = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${apiKey}`;
 
@@ -146,6 +162,8 @@ async function getForecast(city) {
 
             const div = document.createElement("div");
             div.className = "forecast-day";
+            div.classList.add("fade-in");
+
 
             div.innerHTML = `
                 <p>${date}</p>
@@ -166,7 +184,9 @@ async function getForecast(city) {
 }
 
 
+
 // Load recent searches on page load
+
 loadRecentSearches();
 
 
